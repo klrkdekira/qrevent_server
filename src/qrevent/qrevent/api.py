@@ -42,3 +42,9 @@ class API(Origin):
         analyse = modules.QRAnalyse(qr)
         resp = analyse.response(**self.request.registry.settings)
         return resp
+
+class CallTwitter(object):
+    pass
+
+class CallQnack(object):
+    pass
