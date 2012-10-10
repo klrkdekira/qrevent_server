@@ -37,13 +37,14 @@ class DBConnect(object):
         account = Account()
         account.username = u'alphadude'
         account.password = u'helloworld'
+        account.is_active = True
         session.add(account)
         session.flush()
 
         key = AccessKey()
         key.access_key = u'0c36ed7f5a'
         key.private_key = u'28b33a01a3680090c58923e017f4a11a'
-        key.created_by = account.account_id
+        # key.created_by = account.account_id
         session.add(key)
         session.flush()
         
@@ -122,6 +123,17 @@ class Account(Base):
         digest = hashlib.sha1(salt + password).hexdigest()
         return digest == target
 
+    @classmethod
+    def check_user(self, username, password):
+        session = DBSession()
+        user = (session.query(Account)
+                .filter(Account.username==username)
+                .filter(Account.is_active==True)
+                .first())
+        if user:
+            return user.validate_password(password)
+        return False
+
     password = synonym('_password', descriptor=property(_get_password,
                                                         _set_password))
     
@@ -153,4 +165,4 @@ class QrCode(Base):
     qrcode = Column(Unicode, nullable=False)
     # action = Column(JsonType)
     issuer = Column(Unicode, nullable=False, server_default='Anonymous')
-    create_by = Column(Integer, ForeignKey('accounts.account_id', onupdate='CASCADE', ondelete='CASCADE'))
+    # create_by = Column(Integer, ForeignKey('accounts.account_id', onupdate='CASCADE', ondelete='CASCADE'))

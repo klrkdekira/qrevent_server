@@ -2,7 +2,7 @@
 
 Run this once after installing the application::
 
-    python -m qnack.scripts.create_db development.ini
+    python -m qrevent.scripts.initdb development.ini
 """
 import logging.config
 import sys
