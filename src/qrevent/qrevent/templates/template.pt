@@ -44,6 +44,13 @@
     </div>
 
     <div class="container">
+      <div class="row" tal:condition="request.session.peek_flash()">
+        <div class="span12">
+          <div class="alert alert-info">
+            ${request.session.pop_flash()[0]}
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="span12" metal:define-slot="content">
         </div>
