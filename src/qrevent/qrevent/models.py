@@ -23,7 +23,6 @@ Base = declarative_base()
 
 class DBConnect(object):
     def __init__(self, **settings):
-        print settings
         self.engine = engine_from_config(settings, 'sqlalchemy.')
 
     def connect(self):
@@ -83,17 +82,17 @@ def auto_hash_id(length=32):
         return unicode(hashid[:length])
     return run_hash
 
-class JsonType(types.MutableType, types.TypeDecorator):
-    impl = types.Unicode
+# class JsonType(types.MutableType, types.TypeDecorator):
+#     impl = types.Unicode
 
-    def process_bind_param(self, value, engine):
-        return unicode(simplejson.encode(value))
+#     def process_bind_param(self, value, engine):
+#         return unicode(simplejson.encode(value))
 
-    def process_result_value(self, value, engine):
-        if value:
-            return simplejson.decode(value)
-        else:
-            return {}
+#     def process_result_value(self, value, engine):
+#         if value:
+#             return simplejson.decode(value)
+#         else:
+#             return {}
 
 class Account(Base):
     __tablename__ = 'accounts'
@@ -152,6 +151,6 @@ class QrCode(Base):
 
     code_id = Column(Integer, autoincrement=True, primary_key=True)
     qrcode = Column(Unicode, nullable=False)
-    action = Column(JsonType)
+    # action = Column(JsonType)
     issuer = Column(Unicode, nullable=False, server_default='Anonymous')
     create_by = Column(Integer, ForeignKey('accounts.account_id', onupdate='CASCADE', ondelete='CASCADE'))

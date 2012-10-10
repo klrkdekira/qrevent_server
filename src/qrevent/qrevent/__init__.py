@@ -1,17 +1,12 @@
 from pyramid.config import Configurator
-from sqlalchemy import engine_from_config
-
-from .models import (
-    DBSession,
-    Base,
-    )
+from qrevent import models
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    engine = engine_from_config(settings, 'sqlalchemy.')
-    DBSession.configure(bind=engine)
-    Base.metadata.bind = engine
+    db = models.DBConnect(**settings)
+    db.connect()
+
     config = Configurator(settings=settings)
     config.include('qrevent.api.api_include')
 

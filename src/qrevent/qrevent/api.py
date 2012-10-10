@@ -1,48 +1,39 @@
-"""
-call qnack
-tweet
-surf
-"""
-
-from qrevent import models
+import datetime
+from qrevent import models, modules
 
 def api_include(config):
-    config.add_route('api.validate', '/api/validate')
-    config.add_route('api.submit', '/api/submit')
+    # config.include('qrevent.error.api_error_include')
+    config.add_route('api.identify', '/api/identify')
+    config.add_route('api.action', '/api/action')
 
-class API(object):
+    config.add_view(API, attr='validate',
+                    route_name='api.identify',
+                    renderer='json',
+                    accept='application/json')
+    
+class Origin(object):
     def __init__(self, request):
         self.request = request
         self.session = models.DBSession()
         self.check_access()
 
-    def check_access(self):
-        pass
+    def validate_submission(self, **args):
+        p = self.request.params
+        for field in args:
+            if not p.get(field):
+                raise Exception('Mandatory field "%s" is not found.')        
 
+class API(Origin):
+    def validate(self):
+        p = self.request.params
+        qr = p.get('qr')
 
-    
-# {'action':['tweet', 'surf', 'qnack']
-#  'verified':True,
-#  'issuer':'Issuer'}
+        analyse = modules.QRAnalyse(qr)
+        resp = analyse.response(**self.request.registry.settings)
 
+        return resp
+        
+    def submit(self):
+        return {}
 
-# db
-
-# account
-
-# api
-
-# link
-
-
-# action
-
-# surf -proceed to surf
-
-# qnack - prompt login with qnack
-
-# tweet - if verified different content 
-
-# class API(object):
-#     pass
 

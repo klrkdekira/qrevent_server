@@ -15,7 +15,9 @@ requires = [
     'pyramid_beaker',
     'pyramid_debugtoolbar',
     'zope.sqlalchemy',
-    'wtforms'
+    'wtforms',
+    'simplejson',
+    'requests'
     ]
 
 setup(name='qrevent',
