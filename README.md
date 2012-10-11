@@ -1,3 +1,18 @@
+What it does?
+=============
+- It is a framework for Open API for submission and verification of QRCode.
+- API to check if the URL scanned is safe to visit.
+- Page for collaborator to add in verified links.
+  (Can be extended to serve metadata about the QRCode, helps to report malicious websites)
+
+Source Repository at Github
+===========================
+https://github.com/klrkdekira/qrevent_client
+
+QREvent source is available at
+==============================
+https://github.com/klrkdekira/qrevent_server
+
 How to install
 ==============
 $ python bootstrap
