@@ -12,7 +12,7 @@ def api_include(config):
 
     config.add_view(API, attr='validate',
                     route_name='api.identify',
-                    renderer='json')
+                    renderer='jsonp')
     
 class Origin(object):
     def __init__(self, request):

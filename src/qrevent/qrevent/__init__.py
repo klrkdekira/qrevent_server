@@ -1,6 +1,7 @@
 from pyramid.config import Configurator
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.renderers import JSONP
 
 from pyramid_beaker import session_factory_from_settings
 
@@ -23,6 +24,8 @@ def main(global_config, **settings):
                           root_factory='qrevent.security.RootFactory',
                           authentication_policy=authn_policy,
                           authorization_policy=authz_policy)
+    
+    config.add_renderer('jsonp', JSONP(param_name='callback'))
 
     # Setup pyramid_beaker as session factory
     session_factory = session_factory_from_settings(settings)
